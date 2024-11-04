@@ -373,10 +373,92 @@ group by Khoa.MaKH,TenKH
 go
 --18
 select HoSV as 'Họ',TenSV as 'Tên', TenKH as'Tên khoa',[Kết quả] = case
-		when Diem >=4 then N'Đậu'
+		when MIn(Ketqua.Diem) >=4 then N'Đậu'
+		else N'Rớt'
 			end
 			from SinhVien join Khoa on Khoa.MaKH = SinhVien.MaKH
 			join Ketqua on Ketqua.MaSV = SinhVien.MaSV
-group by HoSV,TenSV,TenKH,Diem
+group by HoSV,TenSV,TenKH
+go
+--19
+select HoSV as 'Họ',TenSV as 'Tên', TenKH as'Tên khoa', Phai as 'Phái' from SinhVien
+join Khoa on Khoa.MaKH = SinhVien.MaKH
+join Ketqua on Ketqua.MaSV = SinhVien.MaSV
+where Ketqua.Diem >=4 
+group by HoSV,TenSV,TenKH,Phai
+go
+--20
+select Ketqua.MaMH as 'Mã môn',TenMH as 'Tên môn' from MonHoc
+join Ketqua on Ketqua.MaMH = MonHoc.MaMH
+join SinhVien on SinhVien.MaSV = Ketqua.MaSV
+where Ketqua.Diem >=4 
+group by Ketqua.MaMH,TenMH
+go
+--21
+select SinhVien.MaKH as 'Mã khoa', TenKH as 'Tên khoa' from Khoa
+join SinhVien on SinhVien.MaKH = Khoa.MaKH
+join Ketqua on Ketqua.MaSV = SinhVien.MaSV
+where Ketqua.Diem >=5
+group by SinhVien.MaKH,TenKH
+go
+--22
+select MonHoc.MaMH as 'Mã môn',TenMH as 'Tên môn',
+	SUM(CASE WHEN Diem >= 5 THEN 1 ELSE 0 END) AS 'Số sinh viên đậu',
+       SUM(CASE WHEN Diem < 5 THEN 1 ELSE 0 END) AS 'Số sinh viên rớt'
+	from MonHoc join Ketqua on Ketqua.MaMH = MonHoc.MaMH
+group by MonHoc.MaMH,TenMH
+go
+--23
+select MonHoc.MaMH as 'Mã môn',TenMH as 'Tên môn' from MonHoc join Ketqua on Ketqua.MaMH = MonHoc.MaMH
+GROUP BY MonHoc.MaMH,TenMH
+HAVING SUM(CASE WHEN Diem < 5 THEN 1 ELSE 0 END) = 0;
+go
+--24
+select MaSV as 'Mã sinh viên', HoSV as 'Họ',TenSV as 'Tên', MaKH as 'Mã khoa' from SinhVien 
+WHERE NOT EXISTS ( SELECT 1 FROM Ketqua 
+where Ketqua.MaSV = SinhVien.MaSV and Diem <=5);
+go
+--25
+select SinhVien.MaSV as 'Mã sinh viên', HoSV as 'Họ',TenSV as 'Tên', MaKH as 'Mã khoa' from SinhVien
+join Ketqua on Ketqua.MaSV = SinhVien.MaSV
+where diem < 5
+GROUP BY SinhVien.MaSV,HoSV,TenSV,MaKH
+HAVING COUNT(Ketqua.MaMH) > 2;
+go
+--26
+SELECT Khoa.MaKH, TenKH, 'Tổng số sinh viên'=COUNT(SinhVien.MaSV) FROM Khoa
+JOIN SinhVien ON Khoa.MaKH = SinhVien.MaKH
+GROUP BY Khoa.MaKH,TenKH
+HAVING COUNT(SinhVien.MaSV) > 10
+go
+--27
+SELECT SinhVien.MaSV, HoSV, TenSV, COUNT(Ketqua.MaMH) AS 'Số môn thi'
+FROM SinhVien
+JOIN Ketqua ON SinhVien.MaSV = Ketqua.MaSV
+GROUP BY SinhVien.MaSV, HoSV, TenSV
+HAVING COUNT(Ketqua.MaMH) > 4
+go
+--28
+SELECT Khoa.MaKH, TenKH, COUNT(SinhVien.MaSV) AS 'Tổng Số sinh viên nam'
+FROM Khoa
+JOIN SinhVien ON Khoa.MaKH = SinhVien.MaKH
+WHERE Phai = 1
+GROUP BY Khoa.MaKH,TenKH
+HAVING COUNT(SinhVien.MaSV) >= 5
+go
+--29
+select HoSV as 'Họ',TenSV as 'Tên', Phai as 'Phái' , MaKH, AVG(Ketqua.Diem) AS 'Điểm trung bình'
+FROM SinhVien
+JOIN Ketqua ON SinhVien.MaSV = Ketqua.MaSV
+GROUP BY HoSV,TenSV,Phai,SinhVien.MaKH
+HAVING AVG(Ketqua.Diem) > 4;
+go
+
+--30
+SELECT MonHoc.MaMH, TenMH, AVG(Ketqua.Diem) AS 'trung bình điểm'
+FROM MonHoc
+JOIN Ketqua ON MonHoc.MaMH = Ketqua.MaMH
+GROUP BY MonHoc.MaMH,TenMH
+HAVING AVG(Ketqua.Diem) > 6;
 go
 
