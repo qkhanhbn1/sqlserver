@@ -462,3 +462,122 @@ GROUP BY MonHoc.MaMH,TenMH
 HAVING AVG(Ketqua.Diem) > 6;
 go
 
+--------bai4--------------------
+
+--1
+select MaSV as 'Mã sinh viên',HoSV as 'Họ',TenSV as 'Tên',Phai as 'Giới tính',TenKH as 'Tên khoa' from SinhVien
+join Khoa on Khoa.MaKH = SinhVien.MaKH
+where SinhVien.MaKH = 'AV';
+go
+--2
+select SinhVien.MaSV as 'Mã sinh viên',HoSV as 'Họ',TenSV as 'Tên',TenMH as 'Tên môn',Diem as 'Điểm' from SinhVien
+join Ketqua on Ketqua.MaSV = SinhVien.MaSV
+join MonHoc on MonHoc.MaMH = Ketqua.MaMH
+where TenMH = N'Cơ sở dữ liệu' and Diem > 6.5
+go
+
+--3
+select Ketqua.MaSV as 'Mã sinh viên',TenKH as 'Tên khoa',TenMH as 'Tên môn',Diem as 'Điểm' from Ketqua
+join SinhVien on SinhVien.MaSV = Ketqua.MaSV
+join Khoa on Khoa.MaKH = SinhVien.MaKH
+join MonHoc on MonHoc.MaMH = Ketqua.MaMH
+where TenMH = N'Đồ họa ứng dụng'
+go
+
+---------------bai5---------------
+
+--1
+select SinhVien.MaSV,MaKH,Phai from SinhVien
+left join Ketqua on Ketqua.MaSV = SinhVien.MaSV
+where Ketqua.MaSV is null
+go
+
+--2
+select SinhVien.MaSV as 'Mã sinh viên',HoSV as 'Họ',TenSV as 'Tên',MaKH from SinhVien
+left join Ketqua on Ketqua.MaSV = SinhVien.MaSV and Ketqua.MaMH = N'01'
+where Ketqua.MaSV is null
+go
+--3
+select MonHoc.MaMH,TenMH, Sotiet from MonHoc
+left join Ketqua on Ketqua.MaMH = MonHoc.MaMH 
+where Ketqua.MaSV is null
+go
+--4
+select Khoa.MaKH,TenKH from Khoa
+left join SinhVien on SinhVien.MaKH = Khoa.MaKH
+where SinhVien.MaSV is null
+go
+--5
+select SinhVien.MaSV as 'Mã sinh viên',HoSV as 'Họ',TenSV as 'Tên' from SinhVien
+left join Ketqua on Ketqua.MaSV = SinhVien.MaSV and Ketqua.MaMH = N'01' 
+where Ketqua.MaSV is null and MaKH = N'AV'
+go
+--6
+select MonHoc.MaMH,TenMH from MonHoc
+left join Ketqua on Ketqua.MaMH = MonHoc.MaMH 
+left join SinhVien on SinhVien.MaSV = Ketqua.MaSV and MaKH = N'KT'	
+where SinhVien.MaSV is null 
+go
+--7
+select SinhVien.MaSV,HoSV,TenSV,Diem from SinhVien
+join Ketqua on Ketqua.MaSV = SinhVien.MaSV
+WHERE 
+    Ketqua.MaMH = '04' 
+    AND Ketqua.Diem < (
+        SELECT MIN(KQ2.Diem)
+        FROM dbo.Ketqua AS KQ2
+        JOIN dbo.SinhVien AS SV2 ON KQ2.MaSV = SV2.MaSV
+        WHERE SV2.MaKH = 'TH' AND KQ2.MaMH = '04'
+    );
+go
+--8
+SELECT MaSV,HoSV,TenSV,NgaySinh FROM SinhVien AS SV
+WHERE 
+    SV.NgaySinh > (
+        SELECT MIN(NgaySinh) 
+        FROM dbo.SinhVien 
+        WHERE MaKH = 'AV'
+    );
+go
+--9--
+SELECT SV.MaSV,SV.HoSV,SV.TenSV,HocBong FROM SinhVien AS SV
+WHERE 
+    SV.HocBong > (
+        SELECT SUM(HocBong) 
+        FROM dbo.SinhVien 
+        WHERE MaKH = 'TR'
+    );
+go
+--10
+SELECT MaSV,HoSV,SV.TenSV,NoiSinh FROM SinhVien AS SV
+WHERE 
+    SV.NoiSinh = (
+        SELECT NoiSinh 
+        FROM dbo.SinhVien 
+        WHERE MaKH = 'TR' 
+        ORDER BY HocBong DESC 
+        OFFSET 0 ROWS FETCH NEXT 1 ROWS ONLY
+    );
+go
+--11
+SELECT SV.MaSV,HoSV,TenSV,TenMH,Diem FROM Ketqua AS KQ
+JOIN SinhVien AS SV ON KQ.MaSV = SV.MaSV
+JOIN MonHoc AS MH ON KQ.MaMH = MH.MaMH
+WHERE 
+    KQ.Diem = (
+        SELECT MAX(Diem)
+        FROM dbo.Ketqua
+        WHERE MaMH = KQ.MaMH
+    );
+go
+--12
+SELECT SV.MaSV,TenKH,HocBong FROM SinhVien AS SV
+JOIN Khoa AS K ON SV.MaKH = K.MaKH
+WHERE 
+    SV.HocBong = (
+        SELECT MAX(HocBong)
+        FROM dbo.SinhVien
+        WHERE MaKH = SV.MaKH
+    );
+go
+-----bai7----------------

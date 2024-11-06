@@ -68,77 +68,18 @@ CREATE TABLE [dbo].[SinhVien](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-
-CREATE DATABASE [QLSINHVIEN]
-GO
-USE [QLSINHVIEN]
-GO
-/****** Object:  Table [dbo].[Ketqua]    Script Date: 12/3/2020 12:51:02 AM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[Ketqua](
-	[MaSV] [nvarchar](3) NOT NULL,
-	[MaMH] [nvarchar](2) NOT NULL,
-	[Diem] [real] NULL,
- CONSTRAINT [Prk_MaSV_MAMH] PRIMARY KEY CLUSTERED 
-(
-	[MaSV] ASC,
-	[MaMH] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[Khoa]    Script Date: 12/3/2020 12:51:02 AM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[Khoa](
-	[MaKH] [nvarchar](2) NOT NULL,
-	[TenKH] [nvarchar](50) NOT NULL,
- CONSTRAINT [Prk_KHOA_khoa] PRIMARY KEY CLUSTERED 
-(
-	[MaKH] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[MonHoc]    Script Date: 12/3/2020 12:51:02 AM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[MonHoc](
-	[MaMH] [nvarchar](2) NOT NULL,
-	[TenMH] [nvarchar](50) NOT NULL,
-	[Sotiet] [tinyint] NULL,
- CONSTRAINT [Prk_MONHOC_MaMH] PRIMARY KEY CLUSTERED 
-(
-	[MaMH] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[SinhVien]    Script Date: 12/3/2020 12:51:02 AM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[SinhVien](
+CREATE TABLE [dbo].[DeleteTable](
 	[MaSV] [nvarchar](3) NOT NULL,
 	[HoSV] [nvarchar](15) NOT NULL,
 	[TenSV] [nvarchar](7) NOT NULL,
 	[Phai] [bit] NOT NULL,
 	[NgaySinh] [smalldatetime] NOT NULL,
 	[NoiSinh] [nvarchar](100) NOT NULL,
-	[MaKH] [nvarchar](2) NOT NULL,
-	[HocBong] [float] NULL,
-	[DiemTrungBinh] [float] NULL,
- CONSTRAINT [Prk_SINHVIEN_MaSV] PRIMARY KEY CLUSTERED 
-(
-	[MaSV] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
+	[TenKH] [nvarchar](2) NOT NULL,
+	[HocBong] [float] NULL
+	)
+go
+
 
 INSERT [dbo].[Ketqua] ([MaSV], [MaMH], [Diem]) VALUES (N'A01', N'01', 3)
 INSERT [dbo].[Ketqua] ([MaSV], [MaMH], [Diem]) VALUES (N'A01', N'02', 6)
@@ -174,11 +115,27 @@ INSERT [dbo].[Ketqua] ([MaSV], [MaMH], [Diem]) VALUES (N'C01', N'03', 2)
 INSERT [dbo].[Ketqua] ([MaSV], [MaMH], [Diem]) VALUES (N'C01', N'04', 7)
 INSERT [dbo].[Ketqua] ([MaSV], [MaMH], [Diem]) VALUES (N'C01', N'05', 5)
 INSERT [dbo].[Ketqua] ([MaSV], [MaMH], [Diem]) VALUES (N'C01', N'06', 6)
+INSERT [dbo].[Ketqua] ([MaSV], [MaMH], [Diem]) VALUES (N'A02', N'10', 7)
+INSERT [dbo].[Ketqua] ([MaSV], [MaMH], [Diem]) VALUES (N'A03', N'10', 7)
+INSERT [dbo].[Ketqua] ([MaSV], [MaMH], [Diem]) VALUES (N'A10', N'10', 7)
+INSERT [dbo].[Ketqua] ([MaSV], [MaMH], [Diem]) VALUES (N'B04', N'10', 7)
+INSERT [dbo].[Ketqua] ([MaSV], [MaMH], [Diem]) VALUES (N'C02', N'10', 7)
+INSERT [dbo].[Ketqua] ([MaSV], [MaMH], [Diem]) VALUES (N'C03', N'10', 7)
+INSERT [dbo].[Ketqua] ([MaSV], [MaMH], [Diem]) VALUES (N'C02', N'01', 8)
+INSERT [dbo].[Ketqua] ([MaSV], [MaMH], [Diem]) VALUES (N'C02', N'02', 8)
+INSERT [dbo].[Ketqua] ([MaSV], [MaMH], [Diem]) VALUES (N'C02', N'03', 8)
+INSERT [dbo].[Ketqua] ([MaSV], [MaMH], [Diem]) VALUES (N'C02', N'04', 8)
+INSERT [dbo].[Ketqua] ([MaSV], [MaMH], [Diem]) VALUES (N'C02', N'05', 8)
+INSERT [dbo].[Ketqua] ([MaSV], [MaMH], [Diem]) VALUES (N'C02', N'06', 8)
+INSERT [dbo].[Ketqua] ([MaSV], [MaMH], [Diem]) VALUES (N'C02', N'07', 8)
+INSERT [dbo].[Ketqua] ([MaSV], [MaMH], [Diem]) VALUES (N'C02', N'08', 8)
+INSERT [dbo].[Ketqua] ([MaSV], [MaMH], [Diem]) VALUES (N'C02', N'09', 8)
 INSERT [dbo].[Khoa] ([MaKH], [TenKH]) VALUES (N'AV', N'Anh Văn')
 INSERT [dbo].[Khoa] ([MaKH], [TenKH]) VALUES (N'DT', N'Điện tử')
 INSERT [dbo].[Khoa] ([MaKH], [TenKH]) VALUES (N'KT', N'Kế toán')
 INSERT [dbo].[Khoa] ([MaKH], [TenKH]) VALUES (N'TH', N'Tin học')
 INSERT [dbo].[Khoa] ([MaKH], [TenKH]) VALUES (N'TR', N'Triết')
+INSERT [dbo].[Khoa] ([MaKH], [TenKH]) VALUES (N'CT', N'Công trình')
 INSERT [dbo].[MonHoc] ([MaMH], [TenMH], [Sotiet]) VALUES (N'01', N'Cơ sở dữ liệu', 45)
 INSERT [dbo].[MonHoc] ([MaMH], [TenMH], [Sotiet]) VALUES (N'02', N'Trí tuệ nhân tạo', 45)
 INSERT [dbo].[MonHoc] ([MaMH], [TenMH], [Sotiet]) VALUES (N'03', N'Toán rời rạc ứng dụng', 45)
@@ -188,6 +145,7 @@ INSERT [dbo].[MonHoc] ([MaMH], [TenMH], [Sotiet]) VALUES (N'06', N'Tin học vă
 INSERT [dbo].[MonHoc] ([MaMH], [TenMH], [Sotiet]) VALUES (N'07', N'Pháp luật đại cương', 30)
 INSERT [dbo].[MonHoc] ([MaMH], [TenMH], [Sotiet]) VALUES (N'08', N'Anh chuyên Ngành', 45)
 INSERT [dbo].[MonHoc] ([MaMH], [TenMH], [Sotiet]) VALUES (N'09', N'PTTK Hệ thống', 60)
+INSERT [dbo].[MonHoc] ([MaMH], [TenMH], [Sotiet]) VALUES (N'10', N'Xử lý ảnh', 45)
 INSERT [dbo].[SinhVien] ([MaSV], [HoSV], [TenSV], [Phai], [NgaySinh], [NoiSinh], [MaKH], [HocBong], [DiemTrungBinh]) VALUES (N'A01', N'Nguyễn Thị', N'Vân', 0, CAST(N'1986-02-23T00:00:00' AS SmallDateTime), N'Hà Giang', N'KT', 130000, 5.1800000190734865)
 INSERT [dbo].[SinhVien] ([MaSV], [HoSV], [TenSV], [Phai], [NgaySinh], [NoiSinh], [MaKH], [HocBong], [DiemTrungBinh]) VALUES (N'A02', N'Trần Văn', N'Chính', 0, CAST(N'1994-12-20T00:00:00' AS SmallDateTime), N'Bình Định', N'TH', 150000, NULL)
 INSERT [dbo].[SinhVien] ([MaSV], [HoSV], [TenSV], [Phai], [NgaySinh], [NoiSinh], [MaKH], [HocBong], [DiemTrungBinh]) VALUES (N'A03', N'Lê Thu Bạch', N'Yến', 1, CAST(N'1993-02-21T00:00:00' AS SmallDateTime), N'Tp. HCM', N'TH', 0, NULL)
@@ -203,3 +161,6 @@ INSERT [dbo].[SinhVien] ([MaSV], [HoSV], [TenSV], [Phai], [NgaySinh], [NoiSinh],
 INSERT [dbo].[SinhVien] ([MaSV], [HoSV], [TenSV], [Phai], [NgaySinh], [NoiSinh], [MaKH], [HocBong], [DiemTrungBinh]) VALUES (N'C03', N'Lê Quang', N'Lưu', 0, CAST(N'1985-02-23T00:00:00' AS SmallDateTime), N'Hà Nội', N'TH', 0, NULL)
 INSERT [dbo].[SinhVien] ([MaSV], [HoSV], [TenSV], [Phai], [NgaySinh], [NoiSinh], [MaKH], [HocBong], [DiemTrungBinh]) VALUES (N'T03', N'Hoàng Thị Hải', N'Yến', 1, CAST(N'1989-09-10T00:00:00' AS SmallDateTime), N'Hà Nội', N'AV', 170000, NULL)
 INSERT [dbo].[SinhVien] ([MaSV], [HoSV], [TenSV], [Phai], [NgaySinh], [NoiSinh], [MaKH], [HocBong], [DiemTrungBinh]) VALUES (N'T06', N'Nguyễn Văn', N'Thắng', 0, CAST(N'1988-10-18T00:00:00' AS SmallDateTime), N'Hà Nội', N'AV', 1500000, NULL)
+INSERT [dbo].[SinhVien] ([MaSV], [HoSV], [TenSV], [Phai], [NgaySinh], [NoiSinh], [MaKH], [HocBong], [DiemTrungBinh]) VALUES (N'C02', N'Lê Thành', N'Nguyên', 0, CAST(N'1980-10-20T00:00:00' AS SmallDateTime), N'TP.HCM', N'TH', 850000, NULL)
+INSERT [dbo].[SinhVien] ([MaSV], [HoSV], [TenSV], [Phai], [NgaySinh], [NoiSinh], [MaKH], [HocBong], [DiemTrungBinh]) VALUES (N'C04', N'Nguyễn Trần', N'Quân', 0, CAST(N'1999-11-05T00:00:00' AS SmallDateTime), N'Huế', N'CT', 950000, NULL)
+INSERT [dbo].[SinhVien] ([MaSV], [HoSV], [TenSV], [Phai], [NgaySinh], [NoiSinh], [MaKH], [HocBong], [DiemTrungBinh]) VALUES (N'C05', N'Nguyễn Trần', N'Quân', 0, CAST(N'1999-11-05T00:00:00' AS SmallDateTime), N'Huế', N'CT', 300000, NULL)
